@@ -65,7 +65,9 @@ def standardiseJson(json_data={}, **kwargs):
     return json_data
 
 def readConfigFileSections(config_file='~/.oci/config'):
-    if os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal':
+    if os.getenv('OCI_CLI_AUTH', 'config') == 'resource_principal':
+        config_sections = ['ResourcePrincipal']
+    elif os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal':
         logger.debug('Config File {0!s:s}'.format(config_file))
         abs_config_file = os.path.expanduser(config_file)
         logger.debug('Config File {0!s:s}'.format(abs_config_file))
@@ -84,7 +86,9 @@ def readConfigFileSections(config_file='~/.oci/config'):
     return config_sections
 
 def readAndValidateConfigFileSections(config_file='~/.oci/config'):
-    if os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal':
+    if os.getenv('OCI_CLI_AUTH', 'config') == 'resource_principal':
+        config_sections = [{"section": 'ResourcePrincipal', "valid": True, "reason": ''}]
+    elif os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal':
         logger.debug('Config File {0!s:s}'.format(config_file))
         abs_config_file = os.path.expanduser(config_file)
         logger.debug('Config File {0!s:s}'.format(abs_config_file))

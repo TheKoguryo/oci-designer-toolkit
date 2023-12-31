@@ -46,6 +46,8 @@ class OCIConnection(object):
                 self.signerFromDelegationToken()
             elif os.getenv('OCI_CLI_AUTH', 'config') == 'x509_cert':
                 self.signerFromX509Cert()
+            elif os.getenv('OCI_CLI_AUTH', 'config') == 'resource_principal':
+                self.signerFromResourcePrincipal()
             else:
                 self.signerFromConfig()
         else:
@@ -74,6 +76,23 @@ class OCIConnection(object):
             self.signer = oci.auth.signers.InstancePrincipalsSecurityTokenSigner()
             self.config = {"region": self.region}
             self.instance_principal = True
+        except Exception:
+            logger.warn('Instance Principal is not available')
+            self.signerFromConfig()
+
+    def signerFromResourcePrincipal(self):
+        try:
+            # Get region
+            if self.region is None:
+                if self.config is not None:
+                    self.region = self.config.get('region', os.getenv('OKIT_VM_REGION', 'uk-london-1'))
+                else:
+                    self.region = os.getenv('OKIT_VM_REGION', 'uk-london-1')
+           # Get Signer from Resource Principal
+            self.signer = oci.auth.signers.get_resource_principals_signer()
+            self.config = {"region": self.region}
+            self.instance_principal = True
+            self.resource_principal = True
         except Exception:
             logger.warn('Instance Principal is not available')
             self.signerFromConfig()
