@@ -66,11 +66,8 @@ def standardiseJson(json_data={}, **kwargs):
 
 def readConfigFileSections(config_file='~/.oci/config'):
     if os.getenv('OCI_CLI_AUTH', 'config') == 'resource_principal':
-        logger.info('resource_principal')
         config_sections = ['ResourcePrincipal']
-        logger.info('resource_principal')
     elif os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal':
-        logger.info('instance_principal')
         logger.debug('Config File {0!s:s}'.format(config_file))
         abs_config_file = os.path.expanduser(config_file)
         logger.debug('Config File {0!s:s}'.format(abs_config_file))
@@ -83,7 +80,6 @@ def readConfigFileSections(config_file='~/.oci/config'):
         if 'DEFAULT' in config and config.has_option('DEFAULT', 'tenancy'):
             config_sections = ['DEFAULT']
         config_sections.extend(config.sections())
-        logger.info('instance_principal')
     else:
         config_sections = ['InstancePrincipal']
     logger.info('Config Sections {0!s:s}'.format(config_sections))
@@ -91,11 +87,8 @@ def readConfigFileSections(config_file='~/.oci/config'):
 
 def readAndValidateConfigFileSections(config_file='~/.oci/config'):
     if os.getenv('OCI_CLI_AUTH', 'config') == 'resource_principal':
-        logger.info('resource_principal')
         config_sections = [{"section": 'ResourcePrincipal', "valid": True, "reason": ''}]
-        logger.info('resource_principal')
     elif os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal':
-        logger.info('instance_principal')
         logger.debug('Config File {0!s:s}'.format(config_file))
         abs_config_file = os.path.expanduser(config_file)
         logger.debug('Config File {0!s:s}'.format(abs_config_file))
@@ -126,14 +119,12 @@ def readAndValidateConfigFileSections(config_file='~/.oci/config'):
                     entry["valid"] = False
                     entry["reason"] = '[{0!s:s}] Key File entry does not exist.'.format(section)
                 config_sections.append(entry)
-        logger.info('instance_principal')
     else:
         config_sections = [{"section": 'InstancePrincipal', "valid": True, "reason": ''}]
     logger.info('Config Sections {0!s:s}'.format(config_sections))
     return config_sections
 
 def validateConfigFile(config_file='~/.oci/config'):
-    logger.info('validateConfigFile START')
     results = {"valid": True, "errors": [], "sections": {}}
     logger.debug(f'Validating Config File {config_file}')
     if os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal' and os.getenv('OCI_CLI_AUTH', 'config') != 'resource_principal':
@@ -161,7 +152,6 @@ def validateConfigFile(config_file='~/.oci/config'):
                     results["sections"][section]["valid"] = False
                     results["errors"].append('[{0!s:s}] Key File entry does not exist.'.format(section))
         logger.info(results)
-    logger.info('validateConfigFile END')
     return results
 
 def getConfigFileValue(section, key, config_file='~/.oci/config'):
