@@ -133,9 +133,11 @@ def readAndValidateConfigFileSections(config_file='~/.oci/config'):
     return config_sections
 
 def validateConfigFile(config_file='~/.oci/config'):
+    logger.info('validateConfigFile START')
     results = {"valid": True, "errors": [], "sections": {}}
     logger.debug(f'Validating Config File {config_file}')
     if os.getenv('OCI_CLI_AUTH', 'config') != 'instance_principal' and os.getenv('OCI_CLI_AUTH', 'config') != 'resource_principal':
+        logger.info('validateConfigFile if')
         logger.debug('Config File {0!s:s}'.format(config_file))
         abs_config_file = os.path.expanduser(config_file)
         logger.debug('Config File {0!s:s}'.format(abs_config_file))
@@ -159,6 +161,7 @@ def validateConfigFile(config_file='~/.oci/config'):
                     results["sections"][section]["valid"] = False
                     results["errors"].append('[{0!s:s}] Key File entry does not exist.'.format(section))
         logger.info(results)
+    logger.info('validateConfigFile END')
     return results
 
 def getConfigFileValue(section, key, config_file='~/.oci/config'):
