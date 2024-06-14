@@ -1,8 +1,8 @@
 {
   "name": "@ocd/cli",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "OKIT Open Cloud Designer Command-line",
-  "title": "OKIT Open Cloud Designer DeskCommand-linetop",
+  "title": "OKIT Open Cloud Designer Command-linetop",
   "author": {
     "name": "Andrew Hopkinson",
     "email": "andrew.hopkinson@oracle.com",
@@ -24,14 +24,18 @@
     "pack": "mkdir -p dist && npm pack --pack-destination dist",
     "compile": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
     "build": "npm run compile && npm run pack",
-    "generate-oci-reference-data": "node lib/esm/ocd-generate-default-cache.js  -d ../desktop/src/data"
+    "generate-oci-reference-data": "node lib/esm/ocd-generate-default-cache.js  -d ../desktop/src/data",
+    "test-export-to-md":  "node lib/esm/ocd.js export markdown  -d ../../test/design.okit -o ../../test/export/md/okit.md -C ../desktop/src/css/oci-theme.css -C ../desktop/src/css/ocd-svg.css",
+    "test-export-to-svg": "node lib/esm/ocd.js export svg       -d ../../test/design.okit -O ../../test/export/svg -C ../desktop/src/css/oci-theme.css -C ../desktop/src/css/ocd-svg.css",
+    "test-export-to-tf":  "node lib/esm/ocd.js export terraform -d ../../test/design.okit -O ../../test/export/tf",
+    "test-query":         "node lib/esm/ocd.js query  oci       -d ../../test/query.okit -p DEFAULT -c OKIT -c infrastructure -c network"
   },
   "dependencies": {
-    "@ocd/codegen": "^1.0.0",
-    "@ocd/core": "^1.0.0",
-    "@ocd/export": "^1.0.0",
-    "@ocd/import": "^1.0.0",
-    "@ocd/model": "^1.0.0",
-    "@ocd/query": "^1.0.0"
+    "@ocd/codegen": "^0.2.0",
+    "@ocd/core": "^0.2.0",
+    "@ocd/export": "^0.2.0",
+    "@ocd/import": "^0.2.0",
+    "@ocd/model": "^0.2.0",
+    "@ocd/query": "^0.2.0"
   }
 }

@@ -3,7 +3,8 @@
 ** Licensed under the GNU GENERAL PUBLIC LICENSE v 3.0 as shown at https://www.gnu.org/licenses/.
 */
 
-import palette from '../json/palette.json'
+// import palette from '../json/palette.json'
+import { palette } from '../data/OcdPalette'
 import { PaletteGroup, PaletteResource } from '@ocd/model'
 import { DragData, Point } from '../types/DragData'
 import { PaletteProps } from '../types/ReactComponentProperties'
@@ -29,7 +30,7 @@ const OcdProviderPaletteProviders = ({ provider, ocdConsoleConfig, setDragData }
     return (
         <div className='ocd-designer-palette-provider'>
             <details id={provider.title} open={open}>
-                <summary><div className={provider.class}><label>{provider.title}</label></div></summary>
+                <summary><div className={provider.class}><span>{provider.title}</span></div></summary>
                 <div>
                     {provider.groups.map((group: PaletteGroup) => {
                         return <OcdProviderPaletteGroup 
@@ -55,7 +56,7 @@ const OcdProviderPaletteGroup = ({ provider, group, ocdConsoleConfig, setDragDat
     return (
         <div className='ocd-designer-palette-group'>
             <details id={group.title} open={open}>
-                <summary><div className={group.class}><label>{group.title}</label></div></summary>
+                <summary><div className={group.class}><span>{group.title}</span></div></summary>
                 <div className={`${ocdConsoleConfig.config.verboseProviderPalette ? 'ocd-designer-palette-group-verbose-grid' : 'ocd-designer-palette-group-grid'}`}>
                     {group.resources.map((resource: PaletteResource) => {
                         resource.provider = provider

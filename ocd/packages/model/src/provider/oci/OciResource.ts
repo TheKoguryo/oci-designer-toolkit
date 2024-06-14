@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { OcdUtils } from '@ocd/core'
 import { OcdResource } from "../../OcdResource"
 import * as Resources from './resources'
+import { OcdResources } from '../../OcdDesign'
 
 export interface OciResource extends OcdResource {
     region: string
@@ -46,27 +47,27 @@ export namespace OciResource {
             Resources[namespace].setParentId(child, parent.id)
         }
     }
-    export function getParentId(resource: OciResource): string {
+    export function getParentId(resource: OciResource, allResources?: OcdResources): string {
         const namespace = `Oci${resource.resourceType}`
         // @ts-ignore 
-        const parentId = Resources[namespace].getParentId(resource)
+        const parentId = Resources[namespace].getParentId(resource, allResources)
         return parentId
     }
-    export function getAssociationIds(resource: OciResource): string[] {
+    export function getAssociationIds(resource: OciResource, allResources: OcdResources): string[] {
         const namespace = `Oci${resource.resourceType}`
         // @ts-ignore 
-        const associationIds = Resources[namespace].getConnectionIds(resource)
+        const associationIds = Resources[namespace].getConnectionIds(resource, allResources)
         return associationIds
     }
-    export function assignParentIdOrig(child: OciResource, parent: OciResource) {
-        const childTypes: Record<string, string[]> = {
-            Vcn: ['Subnet'],
-            Subnet: ['Instance']
-        }
-        if (Object.hasOwn(childTypes, parent.resourceType) && childTypes[parent.resourceType].includes(child.resourceType)) {
-            const namespace = `Oci${child.resourceType}`
-            // @ts-ignore 
-            Resources[namespace].setParentId(child, parent.id)
-        }
-    }
+    // export function assignParentIdOrig(child: OciResource, parent: OciResource) {
+    //     const childTypes: Record<string, string[]> = {
+    //         Vcn: ['Subnet'],
+    //         Subnet: ['Instance']
+    //     }
+    //     if (Object.hasOwn(childTypes, parent.resourceType) && childTypes[parent.resourceType].includes(child.resourceType)) {
+    //         const namespace = `Oci${child.resourceType}`
+    //         // @ts-ignore 
+    //         Resources[namespace].setParentId(child, parent.id)
+    //     }
+    // }
 }

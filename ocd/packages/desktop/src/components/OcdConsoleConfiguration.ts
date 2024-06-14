@@ -8,8 +8,10 @@ export interface OcdConsoleConfiguration {
     showModelPalette: boolean
     showProvidersPalette: string[]
     verboseProviderPalette: boolean
-    displayPage: 'bom' | 'designer' | 'documentation' | 'markdown' | 'tabular' | 'terraform' | 'variables' | 'validation'
+    displayPage: 'bom' | 'designer' | 'documentation' | 'help' | 'markdown' | 'tabular' | 'terraform' | 'variables' | 'validation'
+    helpPage?: 'releasenotes' | 'userguide'
     detailedResource: boolean
+    showPreviousViewOnStart: boolean
     showProperties: boolean
     highlightCompartmentResources: boolean
     zoomOnWheel: boolean
@@ -36,6 +38,7 @@ export class OcdConsoleConfig {
             verboseProviderPalette: false,
             displayPage: 'designer',
             detailedResource: true,
+            showPreviousViewOnStart: true,
             showProperties: true,
             highlightCompartmentResources: false,
             zoomOnWheel: false,
